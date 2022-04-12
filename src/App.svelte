@@ -1,6 +1,7 @@
 <script>
 
 	import ScoreItem from './lib/score.svelte';
+	import Scan from './lib/ScanEan13.svelte';
 
 	let ean = '3017620425035';
 	let errmsg = '';
@@ -46,12 +47,17 @@
         })
         .catch((err) => (errmsg = err));
 	}
+
+	const scanned = (ev) => {
+		ean = ev.detail.code;
+		search();
+	}
 </script>
 
 <main>
 
 <div class="search">
-	<input bind:value={ean}/><button on:click={search}>rechercher</button>
+	<input bind:value={ean}/><button on:click={search}>rechercher</button><Scan on:success="{scanned}" />
 	<h2>{errmsg}</h2>
 </div>
 
